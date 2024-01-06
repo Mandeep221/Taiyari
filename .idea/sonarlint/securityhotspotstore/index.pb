@@ -1,0 +1,19 @@
+
+å
+\app/src/main/java/com/msarangal/buildtypesandproductflavorsdemoapp/data/remote/model/User.kt,c/5/c5474d61ada907af5b4a48e98926935c15ce2839
+è
+_app/src/main/java/com/msarangal/buildtypesandproductflavorsdemoapp/data/remote/UserApiHelper.kt,9/6/96aa4c6e702db47ebda4953ddf9f6039a1809ff5
+ì
+capp/src/main/java/com/msarangal/buildtypesandproductflavorsdemoapp/data/remote/UserApiHelperImpl.kt,8/d/8dcedb2d76e16f5c7802344c21a4681c7a3da348
+â
+Yapp/src/main/java/com/msarangal/buildtypesandproductflavorsdemoapp/data/MainRepository.kt,3/7/3785f5318aba4d8adf38bbcb2c26d5a29967a7d2
+P
+ app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
+D
+app/build.gradle.kts,d/2/d2a4383452aad84a18429a5844d31330a012a9e6
+â
+Yapp/src/main/java/com/msarangal/buildtypesandproductflavorsdemoapp/data/remote/UserApi.kt,b/d/bd09b32eeb336d10497a97dcb9d8e2c5a151b563
+É
+Sapp/src/main/java/com/msarangal/buildtypesandproductflavorsdemoapp/MainViewModel.kt,c/5/c51d68763258acdabd4816c01a9daf95972f5d4d
+Ç
+Rapp/src/main/java/com/msarangal/buildtypesandproductflavorsdemoapp/MainActivity.kt,a/a/aa33f9a377a8eed65c320ef1412ec17ba924aa11
