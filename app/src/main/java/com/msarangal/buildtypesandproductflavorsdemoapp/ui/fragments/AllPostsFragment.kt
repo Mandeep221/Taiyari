@@ -7,14 +7,12 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.msarangal.buildtypesandproductflavorsdemoapp.MainViewModel
-import com.msarangal.buildtypesandproductflavorsdemoapp.R
-import com.msarangal.buildtypesandproductflavorsdemoapp.ui.composables.PostsScreen
+import com.msarangal.buildtypesandproductflavorsdemoapp.ui.composables.AllPostsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class UserPostsFragment : Fragment() {
+class AllPostsFragment : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
 
@@ -22,18 +20,11 @@ class UserPostsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(context = requireContext()).apply {
+    ): View? {
+        return ComposeView(requireContext()).apply {
             setContent {
-                PostsScreen(
-                    mainViewModel = viewModel,
-                    onClickLaunchBeerFest = ::handleLaunchBeerFest
-                )
+                AllPostsScreen(mainViewModel = viewModel)
             }
         }
-    }
-
-    private fun handleLaunchBeerFest() {
-        findNavController().navigate(R.id.action_userPostsFragment_to_beerFragment)
     }
 }

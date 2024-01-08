@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.msarangal.buildtypesandproductflavorsdemoapp.MainViewModel
-import com.msarangal.buildtypesandproductflavorsdemoapp.R
-import com.msarangal.buildtypesandproductflavorsdemoapp.ui.composables.PostsScreen
+import com.msarangal.buildtypesandproductflavorsdemoapp.ui.composables.BeerScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class UserPostsFragment : Fragment() {
+class BeerFragment : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
 
@@ -23,17 +22,10 @@ class UserPostsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return ComposeView(context = requireContext()).apply {
+        return ComposeView(requireContext()).apply {
             setContent {
-                PostsScreen(
-                    mainViewModel = viewModel,
-                    onClickLaunchBeerFest = ::handleLaunchBeerFest
-                )
+                BeerScreen(beers = viewModel.beerPagingFlow.collectAsLazyPagingItems())
             }
         }
-    }
-
-    private fun handleLaunchBeerFest() {
-        findNavController().navigate(R.id.action_userPostsFragment_to_beerFragment)
     }
 }

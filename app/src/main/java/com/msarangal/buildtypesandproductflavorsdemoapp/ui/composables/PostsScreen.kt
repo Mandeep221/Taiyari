@@ -3,32 +3,34 @@ package com.msarangal.buildtypesandproductflavorsdemoapp.ui.composables
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.msarangal.buildtypesandproductflavorsdemoapp.MainViewModel
 import com.msarangal.buildtypesandproductflavorsdemoapp.PostUiState
 import com.msarangal.buildtypesandproductflavorsdemoapp.data.remote.model.Post
 
 @Composable
 fun PostsScreen(
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    onClickLaunchBeerFest: () -> Unit = {}
 ) {
     val context = LocalContext.current
 
-    val state by mainViewModel.uiStateFlowPosts.collectAsState()
+    val state by mainViewModel.uiStateFlowPosts.collectAsStateWithLifecycle()
     when (state) {
         PostUiState.Loading -> {
-            showMessage(msg = "Loading Posts..", context = context)
+            //showMessage(msg = "Loading Posts..", context = context)
         }
 
         is PostUiState.Failure -> showMessage(
@@ -39,13 +41,16 @@ fun PostsScreen(
         is PostUiState.Success -> {
 //            val msg = (state as PostUiState.Success).posts.toString()
 //            Log.d("Drake", msg)
-            PostsView(posts = (state as PostUiState.Success).posts)
+            PostsView(
+                posts = (state as PostUiState.Success).posts,
+                onClickLaunchBeerFest = onClickLaunchBeerFest
+            )
         }
     }
 }
 
 @Composable
-fun PostsView(posts: List<Post>) {
+fun PostsView(posts: List<Post>, onClickLaunchBeerFest: () -> Unit) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -54,6 +59,11 @@ fun PostsView(posts: List<Post>) {
             item {
                 PostItemView(post = it)
             }
+        }
+        item {
+            Text(text = "Launch Beer Fest", modifier = Modifier.clickable {
+                onClickLaunchBeerFest.invoke()
+            })
         }
     }
 }

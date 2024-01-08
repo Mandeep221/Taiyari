@@ -33,7 +33,7 @@ fun UsersScreen(
     LaunchedEffect(key1 = true) {
         viewModel.snackBarSharedFlow.collect { shouldLaunchToast ->
             if (shouldLaunchToast) {
-                Toast.makeText(context, "Data loaded successfully", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, "Data loaded successfully", Toast.LENGTH_SHORT).show()
             }
         }
     }

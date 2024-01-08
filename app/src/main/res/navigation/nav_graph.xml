@@ -15,5 +15,13 @@
     <fragment
         android:id="@+id/userPostsFragment"
         android:name="com.msarangal.buildtypesandproductflavorsdemoapp.ui.fragments.UserPostsFragment"
-        android:label="UserPostsFragment" />
+        android:label="UserPostsFragment" >
+        <action
+            android:id="@+id/action_userPostsFragment_to_beerFragment"
+            app:destination="@id/beerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/beerFragment"
+        android:name="com.msarangal.buildtypesandproductflavorsdemoapp.ui.fragments.BeerFragment"
+        android:label="BeerFragment" />
 </navigation>
