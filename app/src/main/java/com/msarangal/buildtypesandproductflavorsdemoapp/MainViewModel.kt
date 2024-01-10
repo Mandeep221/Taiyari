@@ -18,9 +18,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,19 +51,20 @@ class MainViewModel @Inject constructor(
         }.cachedIn(viewModelScope)
 
     init {
-        viewModelScope.launch {
-            updateStateFlow(UserUiState.Loading)
-            repository.fetchData()
-                .flowOn(Dispatchers.IO)
-                .catch {
-                    updateStateFlow(UserUiState.Failure(it.message.toString()))
-                }
-                .collectLatest { list ->
-                    delay(2000)
-                    updateStateFlow(UserUiState.Success(list))
-                    _snackBarSharedFlow.emit(true)
-                }
-        }
+//        viewModelScope.launch {
+//            updateStateFlow(UserUiState.Loading)
+//            repository.fetchUsers()
+//                .flowOn(Dispatchers.IO)
+//                .catch {
+//                    updateStateFlow(UserUiState.Failure(it.message.toString()))
+//                }
+//                .collectLatest { list ->
+//                    delay(2000)
+//                    updateStateFlow(UserUiState.Success(list))
+//                    _snackBarSharedFlow.emit(true)
+//                }
+//        }
+        fetchUserAndPostsInParallel()
     }
 
     private fun updateStateFlow(uiState: UserUiState) {
@@ -84,6 +88,47 @@ class MainViewModel @Inject constructor(
                 }
         }
     }
+
+    // Series Api call
+    // fetch all users, get all posts by the 3rd user using userId
+    fun fetchPostsWithSeriesApiCall() {
+        updatePostsUiState(PostUiState.Loading)
+        viewModelScope.launch {
+            repository.fetchUsers()
+                .flatMapLatest {
+                    repository.fetchPostsByUser(it[6].id.toString())
+                }.flowOn(Dispatchers.IO)
+                .catch {
+                    updatePostsUiState(PostUiState.Failure(it.toString()))
+                }.collectLatest { posts ->
+                    delay(2000)
+                    updatePostsUiState(PostUiState.Success(posts))
+                }
+
+        }
+    }
+
+    // Parallel Api call
+    // Fetch all Users and all the Posts simultaneously
+    private fun fetchUserAndPostsInParallel() {
+        updateStateFlow(UserUiState.Loading)
+        updatePostsUiState(PostUiState.Loading)
+        viewModelScope.launch {
+            repository.fetchUsers()
+                .zip(repository.fetchPostsByUser("3")) { users, posts ->
+                    updateStateFlow(UserUiState.Success(users))
+                    updatePostsUiState(PostUiState.Success(posts))
+                }.flowOn(Dispatchers.IO)
+                .catch {
+                    updateStateFlow(UserUiState.Failure(it.message.toString()))
+                    updatePostsUiState(PostUiState.Failure(it.message.toString()))
+                }
+                .collect()
+        }
+    }
+
+    // Tomorrow, practice combine, zip and flatMap operators in Kotlin Flows
+
 }
 
 sealed class UserUiState {

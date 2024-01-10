@@ -64,7 +64,10 @@ fun UsersScreen(
         }
 
         is UserUiState.Failure -> {
-            UserDataView(textToDisplay = "Failure", modifier = modifier)
+            UserDataView(
+                textToDisplay = (state as UserUiState.Failure).errorMessage,
+                modifier = modifier
+            )
         }
     }
 }

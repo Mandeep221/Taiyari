@@ -10,7 +10,7 @@ class MainRepository(
     private val userApiHelper: UserApiHelper,
     private val beerApiHelper: BeerApiHelper
 ) {
-    fun fetchData(): Flow<List<User>> = userApiHelper.getUsers()
+    fun fetchUsers(): Flow<List<User>> = userApiHelper.getUsers()
 
     fun fetchPostsByUser(userId: String): Flow<List<Post>> =
         userApiHelper.getPostsByUser(userId = userId)

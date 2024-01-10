@@ -34,7 +34,8 @@ class UserListFragment : Fragment() {
 
     private fun handleUserClick(userId: Int) {
         findNavController().navigate(R.id.action_userListFragment_to_userPostsFragment)
-        viewModel.fetchPostsByUser(userId = userId.toString())
+        //viewModel.fetchPostsByUser(userId = userId.toString())
+        //viewModel.fetchPostsWithSeriesApiCall()
         Toast
             .makeText(requireContext(), "$userId", Toast.LENGTH_SHORT)
             .show()
